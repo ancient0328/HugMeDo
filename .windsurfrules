@@ -1,0 +1,109 @@
+# HugMeDo Project Rules
+
+## Basic Principles
+- Adopting the **Containerized Modular Monolith** architecture
+- Phased development approach from v0.0.0 to v1.0.0
+- Refer to the `/documents/` directory for detailed technical specifications
+
+## Versioning System
+- **v0.0.0**: Foundation Building Phase (Basic structure of containerized modular monolith)
+- **v0.1.0**: Core Module Implementation Phase (Basic functionality of OHR and Chat modules)
+- **v0.2.0**: Feature Enhancement Phase (Extended functionality of OHR and Chat modules)
+- **v0.3.0**: Integration and Stabilization Phase (System-wide integration and testing)
+- **v1.0.0**: Production Release Phase (Deployment to AWS and operations start)
+- **v1.1.0 and beyond**: Expansion Phase (HALCA module, Hugmemo module, etc.)
+
+## Development Environment
+
+### Package Management
+- **Required**: Use pnpm
+- **Prohibited**: Use of npm or yarn is not allowed
+- Add global dependencies with the `-w` flag (`pnpm add -Dw typescript`)
+- Add module-specific dependencies in their respective directories
+
+### Port Assignments
+- Web development server: 40000
+- Mobile development server: 40010
+- API Gateway: 40040
+- Module services (`/modules`):
+  - OHR module: 40100
+  - Chat module: 40110
+  - HALCA module: 40120 (planned for implementation after v1.1.0)
+  - Hugmemo module: 40130 (planned for implementation after v1.1.0)
+  - New modules: 40140 and above (increasing by 10)
+- Redis: 6379
+- Metrics & Monitoring: 9090
+- Additional services within each module: Main port +1, +2, ... (e.g., OHR auxiliary services = 40101, 40102, ...)
+- Custom services: 40500 and above
+
+### Environment Variables
+- Always keep `.env.example` up-to-date
+- Store sensitive information in `.env.local` (not tracked by git)
+- Use service name as prefix for environment variable names (e.g., `HUGMEDO_DCM_API_KEY`)
+
+## Development Priorities
+
+### Priority Modules for v1.0.0
+- **OHR Module**: Video call functionality (Amazon Chime SDK)
+- **Chat Module**: Real-time chat functionality (Socket.IO)
+
+### Priority Features for v1.0.0
+1. Authentication and authorization foundation
+2. Basic video call functionality in OHR module
+3. Basic chat functionality in Chat module
+4. Dashboard integration
+5. User role management
+
+### Planned for Implementation after v1.1.0
+- HALCA Module (Mental health check)
+- Hugmemo Module (Medical record management)
+- Appointment system
+- Analytics dashboard
+
+## Code Conventions
+
+### File Naming
+- React components: PascalCase (e.g., `CircularProgress.svelte`)
+- Regular files: kebab-case (e.g., `auth-manager.ts`)
+- Configuration files: camelCase (e.g., `tsconfig.json`)
+- Docker files: Dockerfile.<service> (e.g., `Dockerfile.api`)
+
+### Code Naming
+- Functions/variables: camelCase (e.g., `getUserData`)
+- Constants: UPPER_SNAKE_CASE (e.g., `MAX_RETRY_COUNT`)
+- Classes/types: PascalCase (e.g., `AuthManager`)
+- Interfaces: PascalCase or IPascalCase (e.g., `UserConfig` or `IUserConfig`)
+- Container names: kebab-case (e.g., `hugmedo-dcm-api`)
+
+## Branching Strategy
+- `main`: Stable/production version
+- `develop`: Development integration branch
+- Feature branches: `feature/feature-name`
+- Bug fixes: `bugfix/concise-problem-description`
+- Hotfixes: `hotfix/urgent-fix-description`
+
+## Commit Message Convention
+- `feat:` New feature
+- `fix:` Bug fix
+- `docs:` Documentation changes only
+- `style:` Changes that do not affect code meaning (whitespace, formatting, missing semicolons, etc.)
+- `refactor:` Code changes that neither fix bugs nor add features
+- `test:` Adding or modifying tests
+- `chore:` Changes to build process or tools
+- `container:` Changes to container configuration
+
+## Development Records
+- Create a development record in `/documents/log/` after completing a development task
+- Filename: `project-record-{XX}-{title}.md` (XX is sequential number)
+- Simultaneously update `/documents/log/project-roadmap.md`
+
+## Detailed Documentation References
+- Architecture details: `/documents/architecture/containerized-modular-monolith.md`
+- API specification: `/documents/api/api-specification.md`
+- Development environment setup: `/documents/guides/development-environment-setup.md`
+- Coding standards: `/documents/guides/coding-standards.md`
+- Testing strategy: `/documents/guides/testing-strategy.md`
+- AWS deployment guide: `/documents/guides/aws-deployment-guide.md`
+- Security design: `/documents/architecture/security-design.md`
+
+*These project rules provide basic development guidelines. For detailed technical requirements and processes, please refer to the related documents in the `/documents/` directory.*

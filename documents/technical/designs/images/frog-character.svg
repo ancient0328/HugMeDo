@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 外側の輪郭 -->
+  <path d="M256 480C379.712 480 480 379.712 480 256C480 132.288 379.712 32 256 32C132.288 32 32 132.288 32 256C32 379.712 132.288 480 256 480Z" fill="#006838"/>
+  
+  <!-- カエルの顔 -->
+  <path d="M256 440C357.516 440 440 357.516 440 256C440 154.484 357.516 72 256 72C154.484 72 72 154.484 72 256C72 357.516 154.484 440 256 440Z" fill="#8DC63F"/>
+  
+  <!-- カエルの目 -->
+  <circle cx="180" cy="200" r="40" fill="#006838"/>
+  <circle cx="332" cy="200" r="40" fill="#006838"/>
+  
+  <!-- カエルの頬 -->
+  <circle cx="160" cy="280" r="40" fill="#FFCCD0"/>
+  <circle cx="352" cy="280" r="40" fill="#FFCCD0"/>
+  
+  <!-- カエルの口 -->
+  <path d="M200 320C200 320 256 360 312 320" stroke="#006838" stroke-width="20" stroke-linecap="round"/>
+  
+  <!-- 医療マーク -->
+  <rect x="236" y="360" width="40" height="40" fill="white"/>
+  <rect x="246" y="350" width="20" height="60" fill="#F7941D"/>
+  <rect x="226" y="370" width="60" height="20" fill="#F7941D"/>
+</svg>

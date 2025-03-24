@@ -1,0 +1,44 @@
+{
+  "cascadeSettings": {
+    "projectRules": {
+      "enforceRules": true,
+      "priorityRules": [
+        {
+          "name": "svelte5EventSyntax",
+          "description": "Svelte 5のイベント構文変換（on:event → onevent）",
+          "pattern": "on:(submit|click|input|change|keydown|keyup|keypress|focus|blur)",
+          "replacement": "on$1",
+          "direction": "on:event_to_onevent",
+          "priority": "critical",
+          "enforceCheck": true
+        }
+      ]
+    },
+    "preEditChecks": {
+      "enabled": true,
+      "svelte": {
+        "validateEventSyntax": true,
+        "blockReverseTransformations": true
+      }
+    },
+    "postEditValidation": {
+      "enabled": true,
+      "validateTransformationDirection": true
+    },
+    "userPrompt": {
+      "insertBeforeEdits": [
+        "# Svelte 5イベント構文チェック",
+        "変換方向: on:event → onevent",
+        "例: on:submit → onsubmit, on:click → onclick",
+        "注意: この変換は一般的なフレームワークと逆方向です"
+      ]
+    }
+  },
+  "memoryEnhancement": {
+    "priorityTags": ["svelte5", "event_syntax", "hugmedo_dcm"],
+    "autoRecall": true,
+    "enforcedMemories": [
+      "a585234e-93da-4d5b-bc10-4c4271245aec"
+    ]
+  }
+}

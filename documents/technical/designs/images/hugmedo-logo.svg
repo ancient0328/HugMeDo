@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="200" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- H -->
+  <path d="M50 30C50 30 50 100 50 170M50 100C50 100 80 100 110 100M110 30C110 30 110 100 110 170" stroke="#00A651" stroke-width="30" stroke-linecap="round"/>
+  
+  <!-- u -->
+  <path d="M150 60C150 60 150 120 150 170M150 170C150 170 180 190 210 170M210 60C210 60 210 120 210 170" stroke="#00A651" stroke-width="30" stroke-linecap="round"/>
+  
+  <!-- g -->
+  <path d="M250 100C250 70 280 60 310 70C340 80 340 120 340 120L340 200C340 200 310 220 280 210C250 200 250 170 250 170" stroke="#F7941D" stroke-width="30" stroke-linecap="round"/>
+  <path d="M250 120C250 120 280 140 340 120" stroke="#F7941D" stroke-width="30" stroke-linecap="round"/>
+  
+  <!-- M -->
+  <path d="M380 170C380 170 380 60 380 30M380 30C380 30 410 80 440 30M440 30C440 30 440 100 440 170" stroke="#00A651" stroke-width="30" stroke-linecap="round"/>
+  
+  <!-- e -->
+  <path d="M480 120C480 120 510 140 540 120C570 100 570 60 540 50C510 40 480 60 480 100C480 140 510 150 540 140C570 130 570 100 570 100" stroke="#00A651" stroke-width="30" stroke-linecap="round"/>
+  
+  <!-- D -->
+  <path d="M610 30C610 30 610 100 610 170M610 30C610 30 660 30 690 60C720 90 720 140 690 170C660 200 610 170 610 170" stroke="#00A651" stroke-width="30" stroke-linecap="round"/>
+  
+  <!-- o -->
+  <path d="M730 100C730 70 750 60 770 70C790 80 800 100 800 120C800 140 790 160 770 170C750 180 730 170 730 140C730 110 750 100 770 110C790 120 800 140 800 140" stroke="#F7941D" stroke-width="30" stroke-linecap="round"/>
+  
+  <!-- 笑顔の線 -->
+  <path d="M300 180C300 180 400 220 500 180" stroke="#F7941D" stroke-width="10" stroke-linecap="round"/>
+  
+  <!-- 装飾 -->
+  <path d="M290 50C290 50 300 30 310 20" stroke="#8DC63F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M270 40C270 40 280 20 290 10" stroke="#8DC63F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M250 30C250 30 260 10 270 0" stroke="#8DC63F" stroke-width="8" stroke-linecap="round"/>
+  
+  <path d="M730 50C730 50 740 30 750 20" stroke="#8DC63F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M750 40C750 40 760 20 770 10" stroke="#8DC63F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M770 30C770 30 780 10 790 0" stroke="#8DC63F" stroke-width="8" stroke-linecap="round"/>
+</svg>

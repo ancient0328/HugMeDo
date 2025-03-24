@@ -1,0 +1,119 @@
+{
+  "projectRules": {
+    "priority": "critical",
+    "enforceRules": true,
+    "svelte5": {
+      "eventSyntax": {
+        "oldPattern": "on:event",
+        "newPattern": "onevent",
+        "direction": "on:event_to_onevent",
+        "examples": [
+          {"old": "on:submit", "new": "onsubmit"},
+          {"old": "on:click", "new": "onclick"},
+          {"old": "on:input", "new": "oninput"},
+          {"old": "on:change", "new": "onchange"},
+          {"old": "on:keydown", "new": "onkeydown"}
+        ],
+        "enforceCheck": true
+      },
+      "eventModifiers": {
+        "enabled": true,
+        "modifiers": [
+          {"name": "preventDefault", "implementation": "event.preventDefault()"},
+          {"name": "stopPropagation", "implementation": "event.stopPropagation()"},
+          {"name": "capture", "implementation": "// カスタム実装が必要"},
+          {"name": "once", "implementation": "// カスタム実装が必要"},
+          {"name": "passive", "implementation": "// カスタム実装が必要"}
+        ],
+        "transformationTemplates": {
+          "simple": "onevent={handler}",
+          "withModifier": "onevent={(e) => { e.{modifierImplementation}; handler(e); }}",
+          "withoutParams": "onevent={(e) => { e.{modifierImplementation}; handler(); }}"
+        },
+        "autoTransform": true
+      },
+      "autoFix": {
+        "enabled": true,
+        "mode": "interactive",
+        "scope": "file"
+      }
+    }
+  },
+  "harcaSettings": {
+    "analysisMode": "strict",
+    "patternRecognition": {
+      "enabled": true,
+      "sensitivity": "high"
+    },
+    "sequentialThinking": {
+      "steps": [
+        {
+          "name": "identifyPatterns",
+          "description": "コード内のイベントハンドラパターンを特定",
+          "priority": "high"
+        },
+        {
+          "name": "validateDirection",
+          "description": "変換方向の検証（on:event → onevent）",
+          "priority": "critical"
+        },
+        {
+          "name": "identifyModifiers",
+          "description": "イベント修飾子の特定と処理方法の決定",
+          "priority": "high"
+        },
+        {
+          "name": "applyTransformation",
+          "description": "パターンに基づいた変換の適用",
+          "priority": "high"
+        },
+        {
+          "name": "verifyResults",
+          "description": "変換結果の検証",
+          "priority": "critical"
+        }
+      ],
+      "enforceSequence": true
+    },
+    "preEditChecks": {
+      "enabled": true,
+      "requiredChecks": [
+        "validateSyntaxDirection",
+        "identifyExistingPatterns",
+        "checkForModifiers",
+        "confirmTransformationPlan"
+      ]
+    },
+    "standardTransformations": {
+      "enabled": true,
+      "svelte5EventSyntax": {
+        "enabled": true,
+        "automaticDetection": true,
+        "suggestFixes": true,
+        "preventMixedSyntax": true
+      }
+    }
+  },
+  "integrations": {
+    "windsurf": {
+      "preEditHooks": true,
+      "postEditValidation": true,
+      "errorPrevention": {
+        "blockReverseTransformations": true,
+        "confirmationRequired": true
+      }
+    },
+    "ide": {
+      "vscode": {
+        "diagnostics": true,
+        "quickFixes": true
+      }
+    },
+    "ci": {
+      "lintChecks": {
+        "enabled": true,
+        "failOnError": true
+      }
+    }
+  }
+}
