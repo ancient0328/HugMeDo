@@ -39,6 +39,7 @@
 	"dependencies": {
 		"@capacitor/android": "^7.1.0",
 		"@capacitor/core": "^7.1.0",
-		"@capacitor/ios": "^7.1.0"
+		"@capacitor/ios": "^7.1.0",
+		"@hugmedo/ui": "workspace:*"
 	}
 }
