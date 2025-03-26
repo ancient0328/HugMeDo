@@ -1,56 +1,35 @@
 <script lang="ts">
   import { base } from '$app/paths';
-  import { LoginForm } from '@hugmedo/ui';
+  import Login from '@hugmedo/ui/pages/auth/Login.svelte';
+  import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
+  import { authStore } from '@hugmedo/ui';
   
-  let loginId = $state('');
-  let password = $state('');
-  let rememberPassword = $state(false);
-  let showPassword = $state(false);
-  let isLoading = $state(false);
-  
-  function togglePasswordVisibility() {
-    showPassword = !showPassword;
-  }
-  
-  async function handleLogin(e: SubmitEvent) {
-    if (!loginId || !password) {
-      return;
-    }
-    
-    isLoading = true;
-    
+  // 認証状態チェック
+  onMount(async () => {
     try {
-      // TODO: 認証基盤実装後に実際の認証処理を追加
-      console.log('ログイン処理:', { loginId, password: '********', rememberPassword });
+      // 認証状態をチェック
+      const isAuthenticated = await authStore.checkAuth();
       
-      // 仮の遅延（実際の認証処理では削除）
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // 認証成功後はダッシュボードへリダイレクト
-      window.location.href = `${base}/dashboard`;
+      // すでに認証済みの場合はダッシュボードへリダイレクト
+      if (isAuthenticated) {
+        goto('/dashboard');
+      }
     } catch (error) {
-      console.error('ログインエラー:', error);
-    } finally {
-      isLoading = false;
+      console.error('認証チェックエラー:', error);
     }
-  }
+  });
 </script>
 
 <svelte:head>
   <title>ログイン | HugMeDo</title>
 </svelte:head>
 
-<div class="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-  <LoginForm 
-    on:login={handleLogin} 
-    bind:loginId={loginId} 
-    bind:password={password} 
-    bind:rememberPassword={rememberPassword} 
-    bind:showPassword={showPassword} 
-    isLoading={isLoading} 
-    togglePasswordVisibility={togglePasswordVisibility} 
-  />
-</div>
+<Login 
+  platform="web"
+  onLoginSuccess={() => goto('/dashboard')}
+  onLoginError={(error: Error) => console.error('ログインエラー:', error)}
+/>
 
 <style>
   :global(body) {
@@ -58,5 +37,18 @@
     margin: 0;
     padding: 0;
     font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  
+  :global(html) {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+  }
+  
+  :global(*, *:before, *:after) {
+    box-sizing: inherit;
   }
 </style>

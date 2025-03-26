@@ -1,17 +1,21 @@
 // UIコンポーネントのエントリーポイント
 // 各コンポーネントをエクスポートして、アプリケーションから簡単にインポートできるようにする
 
-// Auth Components
-export { default as LoginForm } from './components/auth/LoginForm.svelte';
-export { default as PasswordInput } from './components/auth/PasswordInput.svelte';
+// ストアのエクスポート
+export { authStore } from './stores/auth';
 
-// Common Components
-export { default as Button } from './components/common/Button.svelte';
-export { default as TextInput } from './components/common/TextInput.svelte';
-export { default as Link } from './components/common/Link.svelte';
+// サービスのエクスポート
+export { cognitoAuthService } from './services/cognito-auth';
 
-// Branding Components
-export { default as Logo } from './components/branding/Logo.svelte';
-
-// ページコンポーネント
-export { default as LoginPage } from './pages/auth/Login.svelte';
+// コンポーネントのエクスポート
+// 注意: Svelteコンポーネントは直接エクスポートできないため、
+// インポート側で以下のパスを使用してください:
+// import LoginForm from '@hugmedo/ui/components/auth/LoginForm.svelte';
+// import PasswordInput from '@hugmedo/ui/components/auth/PasswordInput.svelte';
+// import Button from '@hugmedo/ui/components/common/Button.svelte';
+// import TextInput from '@hugmedo/ui/components/common/TextInput.svelte';
+// import Link from '@hugmedo/ui/components/common/Link.svelte';
+// import Logo from '@hugmedo/ui/components/branding/Logo.svelte';
+// import Dashboard from '@hugmedo/ui/components/dashboard/Dashboard.svelte';
+// import ModuleCard from '@hugmedo/ui/components/dashboard/ModuleCard.svelte';
+// import LoginPage from '@hugmedo/ui/pages/auth/Login.svelte';

@@ -1,15 +1,25 @@
 <script lang="ts">
   import { base } from '$app/paths';
+  import { Dashboard, ModuleCard } from '@hugmedo/ui';
   
-  // Svelte 5のRunes構文を使用
-  let userName = $state('ユーザー'); // 仮のユーザー名（認証基盤実装後に実際のユーザー情報を取得）
+  // アクティブなモジュール
+  let activeModule = 'ohr';
   
-  // モジュールへのリンク
-  const modules = $state([
+  // モジュールデータ
+  interface Module {
+    id: string;
+    name: string;
+    icon: string;
+    description: string;
+    path: string;
+    available: boolean;
+  }
+  
+  const modules: Module[] = [
     {
       id: 'ohr',
       name: 'オンライン診療',
-      icon: '🩺',
+      icon: '/images/modules/ohr-icon.svg',
       description: 'ビデオ通話で医師と相談',
       path: '/ohr',
       available: true
@@ -17,7 +27,7 @@
     {
       id: 'chat',
       name: 'チャット相談',
-      icon: '💬',
+      icon: '/images/modules/chat-icon.svg',
       description: '医療スタッフとチャット',
       path: '/chat',
       available: true
@@ -25,7 +35,7 @@
     {
       id: 'halca',
       name: 'メンタルチェック',
-      icon: '🧠',
+      icon: '/images/modules/halca-icon.svg',
       description: '定期的な健康状態の確認',
       path: '/halca',
       available: false
@@ -33,15 +43,26 @@
     {
       id: 'hugmemo',
       name: '医療記録',
-      icon: '📋',
+      icon: '/images/modules/hugmemo-icon.svg',
       description: '診療記録の管理と閲覧',
       path: '/hugmemo',
       available: false
     }
-  ]);
+  ];
+  
+  // ユーザー名（認証基盤実装後に実際のユーザー情報を取得）
+  let userName = 'ユーザー';
   
   // 通知（仮のデータ）
-  const notifications = $state([
+  interface Notification {
+    id: number;
+    title: string;
+    message: string;
+    date: string;
+    read: boolean;
+  }
+  
+  const notifications: Notification[] = [
     {
       id: 1,
       title: '次回の診察予約',
@@ -56,110 +77,172 @@
       date: '2025-03-22',
       read: true
     }
-  ]);
+  ];
   
-  // コンポーネントがマウントされたときに実行
-  $effect(() => {
-    // ここに初期化コードを記述
-    console.log('ダッシュボードがマウントされました');
-    
-    // クリーンアップ関数（コンポーネントが破棄されるときに実行）
-    return () => {
-      console.log('ダッシュボードがアンマウントされました');
-    };
-  });
+  // モジュール選択ハンドラー
+  function handleModuleSelect(event: { detail: { moduleId: string } }): void {
+    activeModule = event.detail.moduleId;
+  }
+  
+  // モジュールアクションハンドラー
+  function handleModuleAction(moduleId: string): void {
+    // 対応するページに遷移
+    const module = modules.find(m => m.id === moduleId);
+    if (module && module.available) {
+      window.location.href = `${base}${module.path}`;
+    }
+  }
 </script>
 
 <svelte:head>
   <title>ダッシュボード | HugMeDo</title>
 </svelte:head>
 
-<div class="min-h-screen bg-gray-50">
-  <!-- ヘッダー -->
-  <header class="bg-white shadow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <div class="flex items-center">
-        <img 
-          src="/packages/ui/assets/images/hugmedo-frog-logo.svg" 
-          alt="HugMeDoロゴ" 
-          class="h-10 w-10 mr-2"
-        />
-        <h1 class="text-xl font-semibold text-gray-900">HugMeDo</h1>
-      </div>
-      
-      <div class="flex items-center">
-        <div class="relative mr-4">
-          <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-            {#if notifications.some(n => !n.read)}
-              <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
-            {/if}
-          </button>
-        </div>
-        
-        <div class="flex items-center">
-          <span class="text-sm font-medium text-gray-700 mr-2">{userName}さん</span>
-          <button class="flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-800">
-            {userName.charAt(0)}
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-  
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<Dashboard 
+  modules={modules} 
+  activeModule={activeModule} 
+  isMobile={false}
+  on:moduleSelect={handleModuleSelect}
+>
+  <div class="dashboard-content">
     <!-- ウェルカムメッセージ -->
-    <div class="bg-white rounded-lg shadow p-6 mb-8">
-      <h2 class="text-2xl font-semibold text-gray-900 mb-2">こんにちは、{userName}さん</h2>
-      <p class="text-gray-600">HugMeDoへようこそ。健康管理をサポートします。</p>
+    <div class="welcome-card">
+      <h2 class="welcome-title">こんにちは、{userName}さん</h2>
+      <p class="welcome-text">HugMeDoへようこそ。健康管理をサポートします。</p>
     </div>
     
     <!-- モジュールグリッド -->
-    <h3 class="text-lg font-medium text-gray-900 mb-4">サービス一覧</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <h3 class="section-title">サービス一覧</h3>
+    <div class="modules-grid">
       {#each modules as module}
-        <a 
-          href={module.available ? `${base}${module.path}` : '#'} 
-          class={`block bg-white rounded-lg shadow overflow-hidden transition-transform duration-200 ${module.available ? 'hover:scale-105' : 'opacity-60 cursor-not-allowed'}`}
-        >
-          <div class="p-6">
-            <div class="text-3xl mb-3">{module.icon}</div>
-            <h4 class="text-lg font-medium text-gray-900 mb-1">{module.name}</h4>
-            <p class="text-sm text-gray-600">{module.description}</p>
-            {#if !module.available}
-              <span class="inline-block mt-2 text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                準備中
-              </span>
-            {/if}
-          </div>
-        </a>
+        <ModuleCard
+          title={module.name}
+          description={module.description}
+          icon={module.icon}
+          status={module.available ? '利用可能' : '準備中'}
+          actionText={module.available ? '開始' : '詳細'}
+          on:action={() => handleModuleAction(module.id)}
+        />
       {/each}
     </div>
     
     <!-- 通知セクション -->
-    <h3 class="text-lg font-medium text-gray-900 mb-4">最近の通知</h3>
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <h3 class="section-title">最近の通知</h3>
+    <div class="notifications-card">
       {#if notifications.length > 0}
-        <ul class="divide-y divide-gray-200">
+        <ul class="notifications-list">
           {#each notifications as notification}
-            <li class={`p-4 ${!notification.read ? 'bg-green-50' : ''}`}>
-              <div class="flex justify-between">
+            <li class={`notification-item ${!notification.read ? 'unread' : ''}`}>
+              <div class="notification-content">
                 <div>
-                  <h4 class="text-sm font-medium text-gray-900">{notification.title}</h4>
-                  <p class="text-sm text-gray-600">{notification.message}</p>
+                  <h4 class="notification-title">{notification.title}</h4>
+                  <p class="notification-message">{notification.message}</p>
                 </div>
-                <span class="text-xs text-gray-500">{notification.date}</span>
+                <span class="notification-date">{notification.date}</span>
               </div>
             </li>
           {/each}
         </ul>
       {:else}
-        <div class="p-4 text-center text-gray-500">
+        <div class="no-notifications">
           通知はありません
         </div>
       {/if}
     </div>
-  </main>
-</div>
+  </div>
+</Dashboard>
+
+<style>
+  .dashboard-content {
+    padding: 24px;
+  }
+  
+  .welcome-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .welcome-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .welcome-text {
+    color: #666;
+    font-size: 16px;
+  }
+  
+  .section-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .notifications-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .notifications-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .notification-item {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .notification-item:last-child {
+    border-bottom: none;
+  }
+  
+  .notification-item.unread {
+    background-color: #e8f5e9;
+  }
+  
+  .notification-content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .notification-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 4px 0;
+  }
+  
+  .notification-message {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+  
+  .notification-date {
+    font-size: 12px;
+    color: #999;
+  }
+  
+  .no-notifications {
+    padding: 24px;
+    text-align: center;
+    color: #999;
+  }
+</style>
